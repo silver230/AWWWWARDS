@@ -8,7 +8,7 @@
     {% if title %}
     <title>{{title}}</title>
     {% else %}
-    <title>Awwwards - Website Awards - Best Web Design Trends</title>
+    <title>Awwwards</title>
     {% endif %}
 
     {% block styles %}
@@ -17,13 +17,12 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
-    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+     
 
   </head>
   <body>
 
-     
+     {%include "navbar.html"%}
     {% block content %}
     <!-- <h1 class="text-center">Instagram</h1> -->
 
