@@ -44,3 +44,25 @@ class Project(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, blank=True, null=True)
     posted_time = models.DateTimeField(auto_now_add=True,)
+
+
+    class Meta:
+        ordering = ['-posted_time']
+
+    def __str__(self):
+        return self.name
+
+    def save_project(self):
+        self.save()
+
+    def delete_project(self):
+        self.delete()
+
+    @classmethod
+    def get_project(cls):
+        projects = cls.objects.all()
+        return projects
+
+    @classmethod
+    def filter_by_search_term(cls, search_term):
+        return cls.objects.filter(name__icontains=search_term)    
