@@ -20,4 +20,4 @@ class ProjectForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['user_name', 'bio']     
+        fields = ['user_nam e', 'bio']     
