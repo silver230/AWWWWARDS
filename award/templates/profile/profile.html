@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% load static %}
+{% block content%}
+{{ block.supper }}
+
+
+<div class="container" style="float:left; padding-top:150px">
+    <div class="row">
+
+        <div class="col-md-6">
+            <p>{{profile.bio}}</p>
+            <p>{{user.username}}</p>
+            <p>{{profile.username}}</p>
+
+        </div>
+        >
+
+
+
+    </div>
+     
+</div>
+</div>
+
+{% endblock %}
