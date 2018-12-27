@@ -1,8 +1,19 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,Http404,HttpResponseRedirect
 from .models import Profile
 import datetime as dt
 from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
+from .forms import SignupForm, ProjectForm, ProfileForm
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.template.loader import render_to_string
+from .tokens import account_activation_token
+from django.contrib.auth.models import User
+from django.core.mail import EmailMessage
+from django.contrib.auth.decorators import login_required
+from .models import Profile, Project
 
 # Create your views here.
 def index(request):
@@ -51,3 +62,4 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
