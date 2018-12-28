@@ -4,7 +4,7 @@ from .models import Profile
 import datetime as dt
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from .forms import SignupForm, ProjectForm, ProfileForm
+from .forms import SignupForm, ProjectForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -45,7 +45,7 @@ def signup(request):
             return HttpResponse('Please confirm your email address to complete the registration')
     else:
         form = SignupForm()
-    return render(request, 'signup.html', {'form': form})
+    return render(request, 'registration/registration.html', {'form': form})
 
 
 def activate(request, uidb64, token):
