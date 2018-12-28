@@ -1,10 +1,9 @@
 from django import forms
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Project,Profile
+from .models import Project,Rating
 
-class SignupForm(UserCreationForm):
+class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=200, help_text='Required')
 
     
@@ -20,4 +19,9 @@ class ProjectForm(forms.ModelForm):
 # class ProfileForm(forms.ModelForm):
 #     class Meta:
 #         model = Profile
-#         fields =( 'username','bio')    
+#         fields =( 'user','bio')    
+
+class RatingForm(forms.ModelForm):
+    class Meta:
+        model=Rating
+        exclude = ['profile','project']   
