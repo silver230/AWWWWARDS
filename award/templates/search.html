@@ -1,0 +1,39 @@
+{% extends 'base.html'%}
+{% block content %}
+<div class="container" style="padding:100px">
+    {{ projects | length }}
+
+    
+    <div class="row">
+        {% if projects %}
+        <h2>Found {{ projects|length }} of searched term {{message}}</h2>
+
+
+        {% else %}
+        <h2> Found 0 projects for the search term {{message}}</h2>
+        {% endif %}
+
+    </div>
+
+    <div class="row">
+
+        {% if projects %}
+        {% for project in projects %}
+        <div class="col-md-6">
+            <div class="panel panel-default" width=200px>
+                <div class="panel-heading">
+                    <h1>{{project.name}}</h1>
+                </div>
+                <div class="panel-body"><img src="{{ project.photo.url }}" alt="project" width="400px"></div>
+
+                <div class="panel-footer">
+                    <p>{{project.project_description}}</p>
+                    <a href="">{{project.project_url}}</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
