@@ -1,10 +1,8 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,Http404,HttpResponseRedirect
-from .models import Profile
 import datetime as dt
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
-from .forms import SignupForm, ProjectForm
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -13,40 +11,42 @@ from .tokens import account_activation_token
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Project
+from .models import Project,Rating
+from .forms import SignUpForm,RatingForm,ProjectForm
 
 # Create your views here.
+
 def index(request):
+  project = Project.objects.all()
   date = dt.date.today()
 
-  return render(request,'index.html',{"date":date})
+  return render(request,'index.html',{"date":date,"project":project})
 
  
 def signup(request):
+    form = SignUpForm()
     if request.method == 'POST':
-        form = SignupForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
+            form.save()
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username,email=email, password=raw_password)
             current_site = get_current_site(request)
-            mail_subject = 'Activate your blog account.'
-            message = render_to_string('acc_active_email.html', {
-                'user': user,
+            mail_subject = 'Activate your instagram account.'
+            message = render_to_string('email.html', {
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token':account_activation_token.make_token(user),
             })
             to_email = form.cleaned_data.get('email')
-            email = EmailMessage(
-                mail_subject, message, to=[to_email]
-            )
+            email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             return HttpResponse('Please confirm your email address to complete the registration')
     else:
-        form = SignupForm()
-    return render(request, 'registration/registration.html', {'form': form})
-
+        form = SignUpForm()
+    return render(request, 'registration/registration-form.html', {'form': form})
 
 def activate(request, uidb64, token):
     try:
@@ -63,3 +63,67 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
+
+    
+def post(request,project_id):
+    try:
+        project = Projects.objects.get(id = project_id)
+    except Projects.DoesNotExist:
+        raise Http404()
+    return render(request,"post.html", {"project":project})
+
+# @login_required(login_url='/accounts/login/')
+def new_post(request):
+    current_user = request.user
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            project = form.save(commit=False)
+            project.editor = current_user
+            project.save()
+        return redirect('index')
+
+    else:
+        form = ProjectForm()
+    return render(request, 'new_post.html', {"form": form})  
+
+def search_results(request):
+    current_user = request.user
+    if 'project' in request.GET and request.GET["project"]:
+        search_term = request.GET.get("project")
+        searched_projects = Project.search_project(search_term)
+        message=f"{search_term}"
+
+        print(searched_projects)
+
+        return render(request,'search.html',{"message":message,"projects":searched_projects})
+
+    else:
+        message="You haven't searched for any term"
+        return render(request,'search.html',{"message":message})
+
+@login_required(login_url='/accounts/login/')
+def rating(request, project_id=None):
+    try:
+        project = get_object_or_404(Project, pk=project_id)
+    except:
+        project = None
+        return redirect('index')
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+
+        if form.is_valid():
+            rating = form.save(commit=False)
+             
+            rating.project = project
+            rating.save()
+            return redirect('index')
+
+    else:
+        form = RatingForm()
+
+    rating = Rating.objects.filter(project__pk=project_id)
+    print(rating)
+
+    return render(request, 'rating/rating.html', {"rating": rating, "project": project, "form": form})    
