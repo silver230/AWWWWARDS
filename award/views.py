@@ -22,7 +22,7 @@ def index(request):
 
   return render(request,'index.html',{"date":date,"project":project})
 
- 
+@login_required(login_url='/accounts/login/') 
 def signup(request):
     form = SignUpForm()
     if request.method == 'POST':
@@ -65,7 +65,7 @@ def activate(request, uidb64, token):
         return HttpResponse('Activation link is invalid!')
 
 
-    
+@login_required(login_url='/accounts/login/')   
 def post(request,project_id):
     try:
         project = Project.objects.get(id = project_id)
@@ -73,7 +73,7 @@ def post(request,project_id):
         raise Http404()
     return render(request,"post.html", {"project":project})
 
-# @login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 def new_post(request):
     current_user = request.user
     if request.method == 'POST':
@@ -83,7 +83,6 @@ def new_post(request):
             project.editor = current_user
             project.save()
         return redirect('index')
-
     else:
         form = ProjectForm()
     return render(request, 'new_post.html', {"form": form})  
@@ -103,7 +102,7 @@ def search_results(request):
         message="You haven't searched for any term"
         return render(request,'search.html',{"message":message})
 
-# @login_required(login_url='/accounts/login/')
+@login_required(login_url='/accounts/login/')
 def rating(request, project_id=None):
     try:
         project = get_object_or_404(Project, pk=project_id)
