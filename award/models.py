@@ -18,7 +18,7 @@ class Profile(models.Model):
 
 class Project(models.Model):
 
-    name = models.CharField(max_length=30),
+    name = models.CharField(max_length=30, blank=True),
     photo =  models.ImageField(upload_to='media/'),
     project_description = models.CharField(max_length=50),
     project_url = models.CharField(max_length=50),
@@ -26,7 +26,6 @@ class Project(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, blank=True, null=True),
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True),
     posted_time = models.DateTimeField(auto_now_add=True)
-
 
     class Meta:
         ordering = ['-posted_time']

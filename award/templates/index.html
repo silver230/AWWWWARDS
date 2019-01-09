@@ -2,13 +2,14 @@
 {% load static%}
 <html>
 
-<body>
+<body >
 
     {{block.super}}
     {% block content %}
-    <div class="container-fluid" id="main">
+    <div class="container-fluid" id="main" style='background-image:url("https://uwaterloo.ca/english/sites/ca.english/files/uploads/images/awards2_0.jpg"); background-size:cover; background-repeat: no-repeat'>
+
         <h1 style="color:black; padding-top: 180px;text-align:center;">Welcome to Awwwards</h1>
-        <p style="color: black; text-align:center;">Rate according To:</p>
+        <p style="color: rgba(0, 0, 0, 0.534); text-align:center;">Rate according To:</p>
         <div class="container" style="color:black;">
             <div class="row">
                 <div class="col-md-3">
@@ -48,9 +49,9 @@
     pointer; opacity: 0.8; width:400px ; height: 400px;"></a>
                     <div class="caption">
                         <a href="{{project_item.project_url}}">View Project</a>
-                        <p><strong>
-                                Project Description</strong>:{{project_item.project_description}}</p>
+                        <p><strong>Project Description</strong>:{{project_item.project_description}}</p>
                         <p><strong>Technologies Used</strong>:{{project_item.technologies_used}}</p>
+                        <p><strong>Project_url</strong>:{{project_item.project_url}}</p>
                         <p><strong>Get started:</strong><a href="{% url 'rating' project_id=project_item.id %}">rating Project</a></p>
                         <img src="../static/images.jpeg" alt="" height=60px width=100px>
                     </div>
