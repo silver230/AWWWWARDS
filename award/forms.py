@@ -14,7 +14,7 @@ class SignUpForm(UserCreationForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project 
-        exclude =['user', 'profile']
+        exclude =['user', 'profile',]
         # fields = ('name','photo','projects_url')
 
 class UserForm(forms.ModelForm):
