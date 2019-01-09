@@ -7,62 +7,25 @@
     {{block.super}}
     {% block content %}
     <div class="container-fluid" id="main">
-        <h1 style="color:black; padding-top: 180px;">Welcome to Awwwards</h1>
+        <h1 style="color:black; padding-top: 180px;text-align:center;">Welcome to Awwwards</h1>
         <p style="color: black; text-align:center;">Rate according To:</p>
         <div class="container" style="color:black;">
             <div class="row">
                 <div class="col-md-3">
                     <h2>Design</h2>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star "></span>
+ 
                 </div>
                 <div class="col-md-3">
                     <h2>Content</h2>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
+                    
                 </div>
                 <div class="col-md-3">
                     <h2>Usability</h2>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
+                     
                 </div>
                 <div class="col-md-3">
                     <h2>User Interface</h2>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star checked"></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                    <span class="fa fa-star "></span>
-                </div>
+ 
             </div>
 
         </div>
@@ -89,7 +52,7 @@
                                 Project Description</strong>:{{project_item.project_description}}</p>
                         <p><strong>Technologies Used</strong>:{{project_item.technologies_used}}</p>
                         <p><strong>Get started:</strong><a href="{% url 'rating' project_id=project_item.id %}">rating Project</a></p>
-                        <img src="" alt="" height=60px width=100px>
+                        <img src="../static/images.jpeg" alt="" height=60px width=100px>
                     </div>
 
                 </div>

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block content %}
+
+<div class="row">
+
+
+    <div class='col-md-4 col-xs-4 col-sm-4'>
+    
+
+        <div class="card" id='{{project.id}}'style="width: 36rem;">
+            <img src="{{project.photo.url}}" style="text-align: center;" alt="" width="570px" height="570px">
+            <p style="font-size:40px">
+                
+                <p class="card-text">{{project.name}}</p>
+                <small>posted<em><b>:{{project.postedon|timesince}}</b> ago</em></small>
+            <br>
+
+            <div class="col-md-4 col-sm-4 col-xs-4">
+         
+            <div style='margin-left: 20px;' >
+              <br>
+            {% for comment in project.comments.all %}
+            <b><em><a href='{{comment.user.username}}'>{{comment.user.username}}</a></em></b>:{{comment.comment}}
+            <br>
+            {% endfor %}
+        </div>
+         
+
+        </div>
+
+        </div>
+
+        <br>
+        <br>
+
+      
+    </div>
+</div>
+
+
+
+{% endblock %}

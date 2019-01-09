@@ -34,8 +34,9 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username,email=email, password=raw_password)
             current_site = get_current_site(request)
-            mail_subject = 'Activate your instagram account.'
+            mail_subject = 'Activate your awards account.'
             message = render_to_string('email.html', {
+                'user': user,
                 'domain': current_site.domain,
                 'uid':urlsafe_base64_encode(force_bytes(user.pk)),
                 'token':account_activation_token.make_token(user),
@@ -46,7 +47,7 @@ def signup(request):
             return HttpResponse('Please confirm your email address to complete the registration')
     else:
         form = SignUpForm()
-    return render(request, 'registration/registration-form.html', {'form': form})
+    return render(request, 'registration/registration_form.html', {'form': form})
 
 def activate(request, uidb64, token):
     try:
@@ -67,8 +68,8 @@ def activate(request, uidb64, token):
     
 def post(request,project_id):
     try:
-        project = Projects.objects.get(id = project_id)
-    except Projects.DoesNotExist:
+        project = Project.objects.get(id = project_id)
+    except Project.DoesNotExist:
         raise Http404()
     return render(request,"post.html", {"project":project})
 
@@ -96,13 +97,13 @@ def search_results(request):
 
         print(searched_projects)
 
-        return render(request,'search.html',{"message":message,"projects":searched_projects})
+        return render(request,'search.html',{"message":message,"project":searched_projects})
 
     else:
         message="You haven't searched for any term"
         return render(request,'search.html',{"message":message})
 
-@login_required(login_url='/accounts/login/')
+# @login_required(login_url='/accounts/login/')
 def rating(request, project_id=None):
     try:
         project = get_object_or_404(Project, pk=project_id)
@@ -115,7 +116,7 @@ def rating(request, project_id=None):
 
         if form.is_valid():
             rating = form.save(commit=False)
-             
+            current_user = request.user
             rating.project = project
             rating.save()
             return redirect('index')

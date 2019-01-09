@@ -1,33 +1,27 @@
-{% load bootstrap4 %}
-{% load staticfiles %}
-
+{% load bootstrap4 %} {% load staticfiles %}
 <!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>New Post</title>
+
+  <title>New post</title>
+  {{form.media}}
+
+{% block styles %} {% bootstrap_css %}
+  <link rel="stylesheet" href="{% static 'css/base.css' %}"> {% endblock %}
+
 </head>
 
 <body>
- <h1>new post</h1>
- <p>Posted {{ project_item.posted_time|timesince }} ago.</p>
 
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <form action="{% url 'post_project'%}" method="post"  enctype="multipart/form-data">
+  <form  action="{%url 'new-post'%}" method="post" enctype="multipart/form-data">
+    {%csrf_token%}
 
-        {% csrf_token%}
-        {% bootstrap_form form %}
-        <div class="form-group text-center">
-          <input type="submit" class="btn btn-primary sign-up-button" value="Share">
-          {{form.media}}
-        </div>
-        <input type="hidden" name="next" value="{{next}}">
-      </form>
-    </div>
-  </div>
+    {% bootstrap_form form%}
+    <input type="submit" class="btn btn-success btn-lg" value="Post">
+  </form>
 
    {% block scripts %}
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
